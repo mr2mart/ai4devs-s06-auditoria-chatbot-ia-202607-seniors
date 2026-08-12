@@ -36,7 +36,7 @@ La empresa te provee todo lo que necesitas para construir, remodelar y reparar y
 
 No tiene que ver con el gobierno, banca, educación, empleo ó servicios públicos.
 Es un chatbot que debe informar que es IA y tiene obligaciones de transparencia.
-No realiza perfilado, determina elegibilidad, evalúa solvencia ni toma decisiones con efectos sobre personas.
+No realiza perfilado, no determina elegibilidad, no evalúa solvencia, ni toma decisiones con efectos sobre personas.
 
 ### 1.2 Obligaciones y sanciones
 
@@ -128,9 +128,8 @@ Para cumplir con el principio de licitud, cada acción del chatbot se asocia a u
 
 #### C. Evaluación de Impacto en la Protección de Datos (DPIA - Art. 35)
 
-Dado que el chatbot utiliza inteligencia artificial/LLM para procesar conversaciones de clientes y conectarse con bases de datos internas (ERP) que contienen datos personales (e historial de compras), se requiere realizar una **DPIA (Art. 35)** previa a la puesta en producción.
+Dado que el chatbot utiliza inteligencia artificial/LLM para procesar conversaciones de clientes y conectarse con bases de datos internas (ERP) que contienen datos personales (e historial de compras), se requiere realizar una **DPIA (Art. 35)** previa a la puesta en producción. Primero debe documentarse la evaluación de necesidad y riesgo conforme al umbral de alto riesgo del Art. 35, manteniendo la realización de la DPIA antes de producción si dicha evaluación confirma ese riesgo.
 
-- **Razones que la justifican:** Evaluación del uso de nuevas tecnologías (IA) que procesan datos de forma automatizada y con potencial riesgo de fugas masivas (Prompt Injection / Sensitive Information Disclosure).
 - **Puntos clave de la DPIA:**
   1. Descripción sistemática de las operaciones de tratamiento e identificación de riesgos para los derechos y libertades de las personas.
   2. Valoración de la necesidad y proporcionalidad del tratamiento.
@@ -146,7 +145,8 @@ El sistema y los procesos operativos deben garantizar que los usuarios puedan ej
 - **Derecho de rectificación (Art. 16):** Posibilidad de corregir datos erróneos de contacto o envío.
 - **Derecho de supresión / "al olvido" (Art. 17):** Capacidad de solicitar el borrado del historial de conversaciones e interacciones vinculadas a su cuenta.
 - **Derecho a la limitación del tratamiento (Art. 18):** Opción de pausar el uso de su historial de conversaciones mientras se resuelve una impugnación.
-- **Derecho a la portabilidad de los datos (Art. 19 & 20):** Descarga del historial de cotizaciones o conversaciones en un formato estructurado y de uso común (ej. JSON/CSV).
+- **Derecho a la portabilidad de los datos (Art. 20):** Se limita su alcance a los datos proporcionados por la
+persona, tratados automáticamente y basados en consentimiento o contrato.
 - **Derecho de oposición (Art. 21):** Oponerse al tratamiento basado en interés legítimo o fines publicitarios.
 - **Decisiones individuales automatizadas (Art. 22):** Garantizar que el chatbot no tome decisiones con efectos jurídicos o significativos sin intervención o supervisión humana (ej. denegación automática de crédito o cancelación unilateral de pedido).
 
@@ -154,7 +154,7 @@ El sistema y los procesos operativos deben garantizar que los usuarios puedan ej
 
 #### E. Análisis de la función del proveedor del LLM como Encargado del Tratamiento (Art. 28)
 
-Si el chatbot utiliza una API comercial externa (ej. OpenAI, Anthropic, Google Cloud Vertex), el proveedor del LLM actúa legalmente como **Encargado del Tratamiento (Data Processor)** bajo el **Art. 28 del GDPR**.
+Si el chatbot utiliza una API comercial externa (ej. OpenAI, Anthropic, Google Cloud Vertex), el proveedor del LLM actúa legalmente como **Encargado del Tratamiento (Data Processor)** bajo el **Art. 28 del GDPR**. Será encargado solo si procesa datos bajo instrucciones de la empresa, y responsable o corresponsable si define fines o medios propios.
 
 - **Requisitos del acuerdo de encargado del tratamiento (DPA - Data Processing Agreement):**
   1. **Instrucciones documentadas:** El proveedor solo debe procesar los datos enviados bajo las instrucciones explícitas de la empresa.
@@ -163,7 +163,8 @@ Si el chatbot utiliza una API comercial externa (ej. OpenAI, Anthropic, Google C
   4. **Transferencias internacionales de datos (Art. 44-49):** Si los servidores del proveedor del LLM están fuera del Espacio Económico Europeo (EEE), se deben suscribir Cláusulas Contractuales Tipo (SCC) o verificar que el proveedor cumpla con marcos de transferencia aprobados (ej. EU-US Data Privacy Framework).
   5. **Gestión de subencargados (Sub-processors):** El proveedor debe notificar cualquier cambio o incorporación de terceros subcontratados.
   
-*(Nota: En caso de optar por un despliegue de modelo **100% Local** como se propone en la Parte 3 con Ollama/Qwen, los datos personales no salen de la infraestructura propia, eliminando la necesidad de delegar el tratamiento a un proveedor externo bajo el Art. 28).*
+*(Nota: En caso de optar por un despliegue de modelo **100% Local** como se propone en la Parte 3 con Ollama/Qwen, los datos personales no salen de la infraestructura propia, eliminando la necesidad de delegar el tratamiento a un proveedor externo bajo el Art. 28). Solo elimina, como máximo, al encargado
+externo del LLM y no a otros proveedores de infraestructura, registros o copias de seguridad.*
 
 ---
 
@@ -210,7 +211,8 @@ Si el chatbot utiliza una API comercial externa (ej. OpenAI, Anthropic, Google C
 - **Transferencias internacionales de datos no reguladas**: Los servidores de procesamiento del proveedor suelen estar ubicados en jurisdicciones fuera del Espacio Económico Europeo (EEE), principalmente en EE. UU. Enviar PII sin Cláusulas Contractuales Tipo (SCCs) o sin verificar la adhesión al EU-US Data Privacy Framework constituye una infracción directa del Capítulo V del GDPR.
 - **Subencargados del tratamiento no fiscalizados (Sub-processors)**: Los proveedores de LLM frecuentemente subcontratan infraestructura en la nube, moderación de contenido o servicios de etiquetado a terceros. Si la PII se envía sin filtrar, estos subencargados obtienen acceso a datos personales sin que la empresa haya evaluado su nivel de seguridad o autorizado expresamente su participación bajo el Artículo 28 del GDPR.
 - **Pérdida de control sobre los derechos del interesado**: Una vez que la PII ha sido procesada por la infraestructura del proveedor o integrada en sus copias de seguridad/modelos, resulta sumamente complejo garantizar el derecho de supresión ("al olvido", Art. 17) o el derecho de rectificación (Art. 16). La empresa no podrá asegurar al cliente que sus datos han sido completamente borrados de los registros del proveedor.
-- **Riesgos de brechas de seguridad y reputacionales**: La concentración de datos personales en servidores de terceros incrementa la superficie de ataque. Una brecha de seguridad en la infraestructura del proveedor expondría la PII de los clientes, obligando a la empresa a notificar a la autoridad de control en 72 horas (Art. 33 GDPR) e imponiendo severas sanciones económicas (hasta 20 M€ o 4% de la facturación), además de la pérdida de confianza del mercado.
+- **Riesgos de brechas de seguridad y reputacionales**: La concentración de datos personales en servidores de terceros incrementa la superficie de ataque. Una brecha de seguridad en la infraestructura del proveedor expondría la PII de los clientes, obligando a la empresa a notificar a la autoridad de control (Art. 33 GDPR) e imponiendo severas sanciones económicas (hasta 20 M€ o 4% de la facturación), además de la pérdida de confianza del mercado. La notificación a la autoridad procede solo cuando exista riesgo para los
+derechos y libertades, normalmente sin demora y, cuando sea posible, dentro de 72 horas desde que el responsable la conoce.
 
 ---
 
